@@ -1,0 +1,7 @@
+<!doctype html><html lang="th"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Google sign in</title><body><h1>เข้าสู่ Learning Hub</h1><div id="google"></div><p id="error"></p><script src="https://accounts.google.com/gsi/client" async defer></script><script>
+// Replace with the SAME web OAuth client ID configured in Apps Script and verifier.
+const CLIENT_ID='REPLACE_WITH_WEB_CLIENT_ID.apps.googleusercontent.com';
+const p=new URLSearchParams(location.search),nonce=p.get('nonce'),openerOrigin=p.get('opener');
+function ready(){try{const u=new URL(openerOrigin);if(u.protocol!=='https:'||!(u.hostname==='script.google.com'||u.hostname.endsWith('.script.googleusercontent.com')||u.hostname==='script.googleusercontent.com')||!nonce||!window.opener)throw Error('Invalid opener');google.accounts.id.initialize({client_id:CLIENT_ID,nonce:nonce,ux_mode:'popup',callback:r=>window.opener.postMessage({type:'lms-google',nonce:nonce,credential:r.credential},u.origin)});google.accounts.id.renderButton(document.getElementById('google'),{theme:'outline',size:'large'});}catch(e){document.getElementById('error').textContent=e.message;}}
+window.addEventListener('load',ready);
+</script></body></html>
